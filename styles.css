@@ -1,0 +1,518 @@
+/* ================================
+   Global Styles & Reset
+   ================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+    background: #0f0f0f;
+    min-height: 100vh;
+    padding: 0;
+    color: #e0e0e0;
+}
+
+/* ================================
+   Container & Layout
+   ================================ */
+.container {
+    max-width: 100%;
+    height: 100vh;
+    margin: 0;
+    background: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ================================
+   Header Section
+   ================================ */
+header {
+    background: #111;
+    border-bottom: 1px solid #2a2a2a;
+    color: #fff;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.logo h1 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: #fff;
+}
+
+.controls {
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
+    background: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #3a3a3a;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    background: #333;
+    border-color: #4a4a4a;
+    color: #fff;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+/* ================================
+   Main Content - Dual Panel Layout
+   ================================ */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: #0f0f0f;
+    flex: 1;
+    overflow: hidden;
+}
+
+.panel {
+    background: #1a1a1a;
+    padding: 24px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel h2 {
+    color: #e0e0e0;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #888;
+}
+
+/* ================================
+   Reference Image Panel (Left)
+   ================================ */
+.image-container {
+    background: #0f0f0f;
+    border: 2px dashed #2a2a2a;
+    border-radius: 8px;
+    min-height: 400px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+#referenceImage {
+    max-width: 100%;
+    max-height: 100%;
+    display: none;
+    border-radius: 4px;
+    object-fit: contain;
+}
+
+#referenceImage.visible {
+    display: block;
+}
+
+.image-upload {
+    text-align: center;
+}
+
+.upload-label {
+    display: inline-block;
+    background: #2a2a2a;
+    color: #e0e0e0;
+    padding: 12px 24px;
+    border-radius: 6px;
+    border: 1px solid #3a3a3a;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.upload-label:hover {
+    background: #333;
+    border-color: #4a4a4a;
+    color: #fff;
+}
+
+#imageUpload {
+    display: none;
+}
+
+.image-controls {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.image-controls label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #b0b0b0;
+}
+
+.image-controls input[type="checkbox"] {
+    cursor: pointer;
+    accent-color: #0ea5e9;
+}
+
+.button-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.generate-btn {
+    background: #0ea5e9;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    flex: 1;
+}
+
+.generate-btn:hover {
+    background: #0284c7;
+}
+
+.generate-btn:active {
+    transform: scale(0.98);
+}
+
+.generate-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.change-image-btn {
+    background: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #3a3a3a;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.change-image-btn:hover {
+    background: #333;
+    border-color: #4a4a4a;
+    color: #fff;
+}
+
+.change-image-btn:active {
+    transform: scale(0.98);
+}
+
+/* ================================
+   LEGO Canvas Panel (Right)
+   ================================ */
+.canvas-options {
+    margin-bottom: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.canvas-options label {
+    font-size: 13px;
+    color: #888;
+    font-weight: 500;
+}
+
+.canvas-options select {
+    padding: 6px 12px;
+    background: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 6px;
+    color: #e0e0e0;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.canvas-options select:hover {
+    border-color: #4a4a4a;
+    background: #333;
+}
+
+.canvas-options select:focus {
+    outline: none;
+    border-color: #0ea5e9;
+}
+
+/* LEGO Canvas Grid */
+.lego-canvas {
+    background: #0f0f0f;
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+    display: grid;
+    gap: 2px;
+    padding: 16px;
+    width: 600px;
+    height: 600px;
+    margin: 0 auto;
+}
+
+/* Individual LEGO Brick Cell */
+.brick {
+    aspect-ratio: 1;
+    background: #1a1a1a;
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.1s ease;
+    border: 1px solid #2a2a2a;
+    min-width: 10px;
+    min-height: 10px;
+}
+
+/* LEGO Stud Effect (the circular bumps on top) */
+.brick::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+.brick:hover {
+    transform: scale(1.08);
+    border-color: #0ea5e9;
+    z-index: 10;
+    box-shadow: 0 0 8px rgba(14, 165, 233, 0.5);
+}
+
+.brick.placed {
+    /* Background color is set via JavaScript style.backgroundColor */
+    box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.3),
+                inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* ================================
+   Progress Bar
+   ================================ */
+.progress-bar {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.progress-bar label {
+    font-size: 13px;
+    color: #888;
+    font-weight: 500;
+}
+
+.progress-container {
+    flex: 1;
+    height: 8px;
+    background: #2a2a2a;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #0ea5e9;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+#progressText {
+    font-weight: 600;
+    color: #e0e0e0;
+    min-width: 45px;
+    font-size: 13px;
+}
+
+/* ================================
+   Color Palette Toolbar (Bottom)
+   ================================ */
+.toolbar {
+    background: #111;
+    border-top: 1px solid #2a2a2a;
+    padding: 16px 24px;
+    color: #e0e0e0;
+    flex-shrink: 0;
+}
+
+.toolbar h3 {
+    margin-bottom: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #888;
+}
+
+.color-palette {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+/* Individual Color Swatch */
+.color-swatch {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid #2a2a2a;
+    transition: all 0.15s ease;
+    position: relative;
+}
+
+.color-swatch:hover {
+    transform: scale(1.1);
+    border-color: #4a4a4a;
+}
+
+.color-swatch.selected {
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.3);
+    transform: scale(1.05);
+}
+
+.color-swatch.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* ================================
+   Tool Options
+   ================================ */
+.tool-options {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tool-btn {
+    background: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #3a3a3a;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.tool-btn:hover {
+    background: #333;
+    border-color: #4a4a4a;
+    color: #fff;
+}
+
+.tool-btn.active {
+    background: #0ea5e9;
+    border-color: #0ea5e9;
+    color: white;
+}
+
+/* ================================
+   Scrollbar Styling
+   ================================ */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2a2a2a;
+    border-radius: 6px;
+    border: 2px solid #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3a3a3a;
+}
+
+/* ================================
+   Responsive Design
+   ================================ */
+@media (max-width: 1200px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px 16px;
+    }
+    
+    .logo h1 {
+        font-size: 18px;
+    }
+    
+    .panel {
+        padding: 16px;
+    }
+    
+    .toolbar {
+        padding: 12px 16px;
+    }
+    
+    .color-swatch {
+        width: 32px;
+        height: 32px;
+    }
+}
+
