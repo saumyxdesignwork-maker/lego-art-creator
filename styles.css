@@ -1,5 +1,5 @@
 /* ================================
-   Global Styles & Reset
+   Global Reset & Variables
    ================================ */
 * {
     margin: 0;
@@ -7,412 +7,204 @@
     box-sizing: border-box;
 }
 
+:root {
+    --bg-primary: #e5e5e5;
+    --bg-secondary: #c0c0c0;
+    --bg-canvas: #a8a8a8;
+    --text-primary: #000;
+    --text-secondary: #666;
+    --btn-primary: #fff;
+    --btn-secondary: #d0d0d0;
+    --accent: #000;
+}
+
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', 'Roboto', sans-serif;
-    background: #0f0f0f;
-    min-height: 100vh;
-    padding: 0;
-    color: #e0e0e0;
+    font-family: 'Courier New', 'Monaco', monospace;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow: hidden;
 }
 
 /* ================================
-   Container & Layout
+   Main App Container
    ================================ */
-.container {
-    max-width: 100%;
+.app-container {
+    width: 100vw;
     height: 100vh;
-    margin: 0;
-    background: #1a1a1a;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-/* ================================
-   Header Section
-   ================================ */
-header {
-    background: #111;
-    border-bottom: 1px solid #2a2a2a;
-    color: #fff;
-    padding: 16px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
-}
-
-.logo h1 {
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-    color: #fff;
-}
-
-.controls {
-    display: flex;
-    gap: 8px;
-}
-
-.btn {
-    background: #2a2a2a;
-    color: #e0e0e0;
-    border: 1px solid #3a3a3a;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 13px;
-    transition: all 0.2s ease;
-}
-
-.btn:hover {
-    background: #333;
-    border-color: #4a4a4a;
-    color: #fff;
-}
-
-.btn:active {
-    transform: scale(0.98);
-}
-
-/* ================================
-   Main Content - Dual Panel Layout
-   ================================ */
-.main-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: #0f0f0f;
-    flex: 1;
-    overflow: hidden;
-}
-
-.panel {
-    background: #1a1a1a;
-    padding: 24px;
-    overflow: auto;
     display: flex;
     flex-direction: column;
 }
 
-.panel h2 {
-    color: #e0e0e0;
-    margin-bottom: 20px;
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: -0.3px;
-    text-transform: uppercase;
-    font-size: 12px;
-    color: #888;
+/* ================================
+   Top Header
+   ================================ */
+.top-header {
+    background: var(--bg-secondary);
+    padding: 15px 30px;
+    border-bottom: 2px solid var(--text-primary);
+}
+
+.app-title {
+    font-size: 18px;
+    font-weight: normal;
+    letter-spacing: 1px;
 }
 
 /* ================================
-   Reference Image Panel (Left)
+   Main Layout
    ================================ */
-.image-container {
-    background: #0f0f0f;
-    border: 2px dashed #2a2a2a;
-    border-radius: 8px;
-    min-height: 400px;
-    flex: 1;
+.main-layout {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* ================================
+   Left Sidebar
+   ================================ */
+.sidebar {
+    width: 280px;
+    background: var(--bg-secondary);
+    border-right: 2px solid var(--text-primary);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+}
+
+/* Upload Section */
+.upload-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.upload-section input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.image-preview {
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--bg-primary);
+    border: 2px solid var(--text-primary);
     position: relative;
+    cursor: pointer;
     overflow: hidden;
 }
 
-#referenceImage {
-    max-width: 100%;
-    max-height: 100%;
-    display: none;
-    border-radius: 4px;
+.image-preview img {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+    display: none;
+    z-index: 5;
 }
 
-#referenceImage.visible {
+.image-preview img.visible {
     display: block;
 }
 
-.image-upload {
-    text-align: center;
-}
-
-.upload-label {
-    display: inline-block;
-    background: #2a2a2a;
-    color: #e0e0e0;
-    padding: 12px 24px;
-    border-radius: 6px;
-    border: 1px solid #3a3a3a;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 14px;
-    transition: all 0.2s ease;
-}
-
-.upload-label:hover {
-    background: #333;
-    border-color: #4a4a4a;
-    color: #fff;
-}
-
-#imageUpload {
+.image-preview img.visible ~ .upload-placeholder {
     display: none;
 }
 
-.image-controls {
-    margin-top: 16px;
+.upload-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    z-index: 10;
+}
+
+.upload-placeholder:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.upload-placeholder:active {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.upload-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Sidebar Buttons */
+.sidebar-btn {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--text-primary);
+    background: var(--btn-primary);
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: bold;
+}
+
+.sidebar-btn:hover {
+    background: var(--bg-primary);
+}
+
+.sidebar-btn:active {
+    transform: translateY(2px);
+}
+
+.sidebar-btn.primary {
+    background: var(--accent);
+    color: white;
+}
+
+.sidebar-btn.primary:hover {
+    background: #333;
+}
+
+.sidebar-btn.secondary {
+    background: var(--btn-secondary);
+}
+
+/* Sidebar Section */
+.sidebar-section {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 12px;
 }
 
-.image-controls label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-size: 13px;
-    color: #b0b0b0;
-}
-
-.image-controls input[type="checkbox"] {
-    cursor: pointer;
-    accent-color: #0ea5e9;
-}
-
-.button-group {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.generate-btn {
-    background: #0ea5e9;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
-    transition: all 0.2s ease;
-    flex: 1;
-}
-
-.generate-btn:hover {
-    background: #0284c7;
-}
-
-.generate-btn:active {
-    transform: scale(0.98);
-}
-
-.generate-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-}
-
-.change-image-btn {
-    background: #2a2a2a;
-    color: #e0e0e0;
-    border: 1px solid #3a3a3a;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
-    transition: all 0.2s ease;
-}
-
-.change-image-btn:hover {
-    background: #333;
-    border-color: #4a4a4a;
-    color: #fff;
-}
-
-.change-image-btn:active {
-    transform: scale(0.98);
-}
-
-/* ================================
-   LEGO Canvas Panel (Right)
-   ================================ */
-.canvas-options {
-    margin-bottom: 16px;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-}
-
-.canvas-options label {
-    font-size: 13px;
-    color: #888;
-    font-weight: 500;
-}
-
-.canvas-options select {
-    padding: 6px 12px;
-    background: #2a2a2a;
-    border: 1px solid #3a3a3a;
-    border-radius: 6px;
-    color: #e0e0e0;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.canvas-options select:hover {
-    border-color: #4a4a4a;
-    background: #333;
-}
-
-.canvas-options select:focus {
-    outline: none;
-    border-color: #0ea5e9;
-}
-
-/* LEGO Canvas Grid */
-.lego-canvas {
-    background: #0f0f0f;
-    border: 1px solid #2a2a2a;
-    border-radius: 6px;
+/* Color Palette in Sidebar */
+.sidebar .color-palette {
     display: grid;
-    gap: 2px;
-    padding: 16px;
-    width: 600px;
-    height: 600px;
-    margin: 0 auto;
-}
-
-/* Individual LEGO Brick Cell */
-.brick {
-    aspect-ratio: 1;
-    background: #1a1a1a;
-    border-radius: 2px;
-    cursor: pointer;
-    position: relative;
-    transition: all 0.1s ease;
-    border: 1px solid #2a2a2a;
-    min-width: 10px;
-    min-height: 10px;
-}
-
-/* LEGO Stud Effect (the circular bumps on top) */
-.brick::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50%;
-    height: 50%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
-    border-radius: 50%;
-    opacity: 0.8;
-}
-
-.brick:hover {
-    transform: scale(1.08);
-    border-color: #0ea5e9;
-    z-index: 10;
-    box-shadow: 0 0 8px rgba(14, 165, 233, 0.5);
-}
-
-.brick.placed {
-    /* Background color is set via JavaScript style.backgroundColor */
-    box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.3),
-                inset 0 1px 1px rgba(255, 255, 255, 0.1);
-}
-
-/* ================================
-   Progress Bar
-   ================================ */
-.progress-bar {
-    margin-top: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.progress-bar label {
-    font-size: 13px;
-    color: #888;
-    font-weight: 500;
-}
-
-.progress-container {
-    flex: 1;
-    height: 8px;
-    background: #2a2a2a;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background: #0ea5e9;
-    width: 0%;
-    transition: width 0.3s ease;
-}
-
-#progressText {
-    font-weight: 600;
-    color: #e0e0e0;
-    min-width: 45px;
-    font-size: 13px;
-}
-
-/* ================================
-   Color Palette Toolbar (Bottom)
-   ================================ */
-.toolbar {
-    background: #111;
-    border-top: 1px solid #2a2a2a;
-    padding: 16px 24px;
-    color: #e0e0e0;
-    flex-shrink: 0;
-}
-
-.toolbar h3 {
-    margin-bottom: 12px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #888;
-}
-
-.color-palette {
-    display: flex;
-    flex-wrap: wrap;
+    grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    margin-bottom: 16px;
 }
 
-/* Individual Color Swatch */
 .color-swatch {
-    width: 36px;
-    height: 36px;
-    border-radius: 6px;
+    aspect-ratio: 1;
+    border: 2px solid var(--text-primary);
     cursor: pointer;
-    border: 2px solid #2a2a2a;
-    transition: all 0.15s ease;
+    transition: transform 0.1s;
     position: relative;
 }
 
 .color-swatch:hover {
     transform: scale(1.1);
-    border-color: #4a4a4a;
+    z-index: 10;
 }
 
 .color-swatch.selected {
-    border-color: #0ea5e9;
-    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.3);
-    transform: scale(1.05);
+    border-width: 3px;
+    box-shadow: 0 0 0 2px var(--text-primary);
 }
 
 .color-swatch.selected::after {
@@ -422,97 +214,243 @@ header {
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
 }
 
 /* ================================
-   Tool Options
+   Center Canvas Area
    ================================ */
-.tool-options {
+.canvas-area {
+    flex: 1;
     display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    background: var(--bg-canvas);
 }
 
-.tool-btn {
-    background: #2a2a2a;
-    color: #e0e0e0;
-    border: 1px solid #3a3a3a;
-    padding: 8px 16px;
-    border-radius: 6px;
+/* Project Name Bar */
+.project-bar {
+    display: flex;
+    gap: 10px;
+    padding: 15px 20px;
+    background: var(--bg-secondary);
+    border-bottom: 2px solid var(--text-primary);
+}
+
+.project-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 2px solid var(--text-primary);
+    background: var(--btn-primary);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+}
+
+.project-input:focus {
+    background: #fff;
+}
+
+.project-btn {
+    padding: 10px 20px;
+    border: 2px solid var(--text-primary);
+    background: var(--btn-primary);
+    font-family: inherit;
+    font-size: 14px;
     cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    transition: all 0.2s ease;
+    font-weight: bold;
+    transition: all 0.2s;
 }
 
-.tool-btn:hover {
-    background: #333;
-    border-color: #4a4a4a;
-    color: #fff;
+.project-btn:hover {
+    background: var(--bg-primary);
 }
 
-.tool-btn.active {
-    background: #0ea5e9;
-    border-color: #0ea5e9;
+.project-btn:active {
+    transform: translateY(2px);
+}
+
+/* Canvas Container */
+.canvas-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    overflow: auto;
+}
+
+/* LEGO Canvas */
+.lego-canvas {
+    background: var(--bg-primary);
+    border: 3px solid var(--text-primary);
+    display: grid;
+    gap: 1px;
+    padding: 10px;
+    position: relative;
+}
+
+.canvas-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+.lego-canvas:not(:empty) .canvas-placeholder {
+    display: none;
+}
+
+/* Individual LEGO Brick */
+.brick {
+    aspect-ratio: 1;
+    background: var(--bg-secondary);
+    border: 1px solid var(--text-primary);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.1s;
+    min-width: 12px;
+    min-height: 12px;
+}
+
+.brick::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    height: 40%;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+}
+
+.brick:hover {
+    transform: scale(1.15);
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.brick.placed {
+    box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Bottom Controls */
+.bottom-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: var(--accent);
+    border-top: 2px solid var(--text-primary);
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-group label {
     color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.size-select {
+    padding: 8px 12px;
+    border: 2px solid var(--text-primary);
+    background: var(--btn-primary);
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.save-btn {
+    padding: 10px 30px;
+    border: 2px solid var(--text-primary);
+    background: var(--btn-primary);
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.save-btn:hover {
+    background: var(--bg-primary);
+}
+
+.save-btn:active {
+    transform: translateY(2px);
+}
+
+/* ================================
+   Responsive Design
+   ================================ */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 220px;
+        padding: 15px;
+    }
+
+    .sidebar .color-palette {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .main-layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid var(--text-primary);
+        flex-direction: row;
+        padding: 15px;
+    }
+
+    .upload-section {
+        width: 150px;
+    }
+
+    .image-preview {
+        aspect-ratio: 1;
+    }
+
+    .sidebar-section {
+        flex: 1;
+    }
+
+    .sidebar .color-palette {
+        grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    }
 }
 
 /* ================================
    Scrollbar Styling
    ================================ */
 ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #1a1a1a;
+    background: var(--bg-secondary);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #2a2a2a;
-    border-radius: 6px;
-    border: 2px solid #1a1a1a;
+    background: var(--text-secondary);
+    border: 2px solid var(--bg-secondary);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #3a3a3a;
+    background: var(--text-primary);
 }
-
-/* ================================
-   Responsive Design
-   ================================ */
-@media (max-width: 1200px) {
-    .main-content {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        gap: 12px;
-        padding: 12px 16px;
-    }
-    
-    .logo h1 {
-        font-size: 18px;
-    }
-    
-    .panel {
-        padding: 16px;
-    }
-    
-    .toolbar {
-        padding: 12px 16px;
-    }
-    
-    .color-swatch {
-        width: 32px;
-        height: 32px;
-    }
-}
-

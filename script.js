@@ -230,9 +230,18 @@ function updateProgress() {
     // Calculate percentage
     const percentage = Math.round((filledCells / totalCells) * 100);
     
-    // Update UI
-    document.getElementById('progressFill').style.width = percentage + '%';
-    document.getElementById('progressText').textContent = percentage + '%';
+    // Update UI if progress elements exist
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    
+    if (progressFill) {
+        progressFill.style.width = percentage + '%';
+    }
+    if (progressText) {
+        progressText.textContent = percentage + '%';
+    }
+    
+    console.log(`Progress: ${percentage}% (${filledCells}/${totalCells} bricks)`);
 }
 
 // ================================
@@ -339,6 +348,8 @@ function handleImageUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
     
+    console.log('📂 Processing file:', file.name);
+    
     const reader = new FileReader();
     
     reader.onload = function(e) {
@@ -346,8 +357,11 @@ function handleImageUpload(event) {
         img.src = e.target.result;
         img.classList.add('visible');
         
-        // Hide upload prompt
-        document.querySelector('.image-upload').style.display = 'none';
+        // Hide upload placeholder and label
+        const placeholder = document.getElementById('uploadPlaceholder');
+        const uploadLabel = document.getElementById('uploadLabel');
+        if (placeholder) placeholder.style.display = 'none';
+        if (uploadLabel) uploadLabel.style.display = 'none';
         
         // Show generate and change image buttons
         document.getElementById('generateBtn').style.display = 'block';
@@ -356,7 +370,7 @@ function handleImageUpload(event) {
         // Store image data for color picking and auto-generation
         loadImageData(img);
         
-        console.log('📸 New image uploaded successfully!');
+        console.log('✅ Image uploaded successfully!');
     };
     
     reader.readAsDataURL(file);
@@ -658,48 +672,71 @@ function saveCreation() {
  * Sets up all button and control event listeners
  */
 function setupEventListeners() {
-    // Clear button
-    document.getElementById('clearBtn').addEventListener('click', clearCanvas);
-    
     // Save button
-    document.getElementById('saveBtn').addEventListener('click', saveCreation);
-    
-    // Eraser tool
-    document.getElementById('eraserBtn').addEventListener('click', toggleEraser);
-    
-    // Undo button
-    document.getElementById('undoBtn').addEventListener('click', undo);
+    const saveBtn = document.getElementById('saveBtn');
+    if (saveBtn) {
+        saveBtn.addEventListener('click', saveCreation);
+    }
     
     // Canvas size selector
-    document.getElementById('canvasSize').addEventListener('change', function(e) {
-        canvasSize = parseInt(e.target.value);
-        if (confirm('Changing canvas size will clear your current work. Continue?')) {
-            initializeCanvas();
-        } else {
-            // Revert selection
-            e.target.value = canvasSize;
-        }
-    });
+    const canvasSizeSelect = document.getElementById('canvasSize');
+    if (canvasSizeSelect) {
+        canvasSizeSelect.addEventListener('change', function(e) {
+            const newSize = parseInt(e.target.value);
+            if (confirm('Changing canvas size will clear your current work. Continue?')) {
+                canvasSize = newSize;
+                initializeCanvas();
+            } else {
+                // Revert selection
+                e.target.value = canvasSize;
+            }
+        });
+    }
     
-    // Image upload
-    document.getElementById('imageUpload').addEventListener('change', handleImageUpload);
+    // Image upload with label (most reliable method)
+    const imageUpload = document.getElementById('imageUpload');
+    const uploadLabel = document.getElementById('uploadLabel');
+    
+    console.log('🔍 Setting up upload with label...');
+    console.log('File input:', imageUpload);
+    console.log('Upload label:', uploadLabel);
+    
+    // File input change handler
+    if (imageUpload) {
+        imageUpload.addEventListener('change', function(e) {
+            console.log('📁 File selected!', e.target.files);
+            if (e.target.files && e.target.files[0]) {
+                handleImageUpload(e);
+            }
+        });
+        console.log('✅ File input ready! Click the Upload Image button to select a file.');
+    } else {
+        console.error('❌ File input not found!');
+    }
     
     // Generate LEGO Art button
-    document.getElementById('generateBtn').addEventListener('click', generateLegoArt);
+    const generateBtn = document.getElementById('generateBtn');
+    if (generateBtn) {
+        generateBtn.addEventListener('click', generateLegoArt);
+    }
     
     // Change Image button
-    document.getElementById('changeImageBtn').addEventListener('click', changeImage);
+    const changeImageBtn = document.getElementById('changeImageBtn');
+    if (changeImageBtn) {
+        changeImageBtn.addEventListener('click', changeImage);
+    }
     
-    // Grid overlay toggle
-    document.getElementById('gridOverlay').addEventListener('change', function(e) {
-        const img = document.getElementById('referenceImage');
-        if (e.target.checked) {
-            img.style.backgroundImage = 'repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 20px), repeating-linear-gradient(90deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 20px)';
-            img.style.backgroundSize = '20px 20px';
-        } else {
-            img.style.backgroundImage = 'none';
-        }
-    });
+    // New Canvas button
+    const newCanvasBtn = document.getElementById('newCanvasBtn');
+    if (newCanvasBtn) {
+        newCanvasBtn.addEventListener('click', function() {
+            if (confirm('Start a new canvas? This will clear your current work.')) {
+                initializeCanvas();
+            }
+        });
+    }
+    
+    console.log('✅ All event listeners set up!');
 }
 
 // ================================
